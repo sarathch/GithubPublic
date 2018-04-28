@@ -14,7 +14,8 @@ public interface GithubContract {
 
         void updateRepoList(List<Repo> repoList);
 
-        void hideViews();
+        void showDataLoadError(String result);
+
     }
 
     interface Presenter extends BasePresenter<View>{

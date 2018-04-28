@@ -5,7 +5,6 @@ import android.app.Application;
 import com.takehome.denshaotoko.takehome.MyApplication;
 import com.takehome.denshaotoko.takehome.data.source.GithubRepository;
 import com.takehome.denshaotoko.takehome.data.source.GithubRepositoryModule;
-import com.takehome.denshaotoko.takehome.network.NetworkComponent;
 import com.takehome.denshaotoko.takehome.network.NetworkModule;
 
 import javax.inject.Singleton;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,29 +72,8 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
         @Override
         public void onRepoClick(Repo clickedRepo) {
 
-            BottomSheetDialog dialog = new BottomSheetDialog(GithubActivity.this);
-            View dialogView = getLayoutInflater().inflate(R.layout.dialog_bottom, null);
+            showBottomSheetDialog(clickedRepo);
 
-            TextView lastUpdateView, repoStarsView, repoForksView;
-            lastUpdateView = dialogView.findViewById(R.id.tv_last_update);
-            repoStarsView = dialogView.findViewById(R.id.tv_repo_stars);
-            repoForksView = dialogView.findViewById(R.id.tv_repo_forks);
-
-            String dateStr = clickedRepo.getUpdated_at();
-            try {
-                final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
-                final Date dateObj = sdf.parse(dateStr);
-                Log.v("DateObj", dateObj.toString());
-                dateStr = new SimpleDateFormat("MMM dd, yyyy KK:mm:ss a", Locale.CANADA).format(dateObj);
-            } catch (ParseException ignored) {
-            }
-
-            lastUpdateView.setText(dateStr);
-            repoStarsView.setText(clickedRepo.getStargazers_count());
-            repoForksView.setText(clickedRepo.getForks());
-
-            dialog.setContentView(dialogView);
-            dialog.show();
         }
     };
 
@@ -146,6 +126,33 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
         hideViews();
     }
 
+    private void showBottomSheetDialog(Repo clickedRepo){
+
+        BottomSheetDialog dialog = new BottomSheetDialog(GithubActivity.this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_bottom, null);
+
+        TextView lastUpdateView, repoStarsView, repoForksView;
+        lastUpdateView = dialogView.findViewById(R.id.tv_last_update);
+        repoStarsView = dialogView.findViewById(R.id.tv_repo_stars);
+        repoForksView = dialogView.findViewById(R.id.tv_repo_forks);
+
+        String dateStr = clickedRepo.getUpdated_at();
+
+        try {
+            final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
+            final Date dateObj = sdf.parse(dateStr);
+            dateStr = new SimpleDateFormat("MMM dd, yyyy KK:mm:ss a", Locale.CANADA).format(dateObj);
+        } catch (ParseException ignored) {
+        }
+
+        lastUpdateView.setText(dateStr);
+        repoStarsView.setText(clickedRepo.getStargazers_count());
+        repoForksView.setText(clickedRepo.getForks());
+
+        dialog.setContentView(dialogView);
+        dialog.show();
+    }
+
     @Override
     public void showUserDetails(String url, String name) {
 
@@ -168,10 +175,24 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
         mRecyclerView.startAnimation(animTranslate);
     }
 
-    @Override
     public void hideViews() {
 
         mRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showDataLoadError(String result) {
+        switch (result) {
+            case "user":
+                Snackbar.make(findViewById(android.R.id.content), "User "+ userId+ " not found! Please enter valid username!", Snackbar.LENGTH_LONG).show();
+                break;
+            case "repo":
+                Snackbar.make(findViewById(android.R.id.content), "Unable to fetch public repositories for " + userId, Snackbar.LENGTH_LONG).show();
+                break;
+            default:
+                Snackbar.make(findViewById(android.R.id.content), "Cannot load data! Check Internet?", Snackbar.LENGTH_LONG).show();
+                break;
+        }
     }
 
     public interface RepoItemListener {

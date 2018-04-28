@@ -55,4 +55,5 @@ ext {
     picassoVersion = '2.5.2'
     rxjava2Version = '2.1.8'
     rxandroidVersion = '2.0.1'
+    roboelectricVersion = '3.8'
 }

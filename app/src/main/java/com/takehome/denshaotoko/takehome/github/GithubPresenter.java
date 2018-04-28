@@ -39,7 +39,7 @@ public class GithubPresenter implements GithubContract.Presenter {
 
                 @Override
                 public void onDataNotAvailable() {
-                    Log.v("GithubPresenter::User", "error");
+                    mGithubView.showDataLoadError("user");
                 }
             });
         }
@@ -56,13 +56,12 @@ public class GithubPresenter implements GithubContract.Presenter {
                     mGithubRepository.getRepos(userId, new GithubDataSource.LoadRepoCallback() {
                         @Override
                         public void onRepoFetched(List<Repo> repos) {
-                            Log.v("GithubPresenter::Repo", ""+repos.size());
                             mGithubView.updateRepoList(repos);
                         }
 
                         @Override
                         public void onDataNotAvailable() {
-                            Log.v("GithubPresenter::Repo", "error");
+                            mGithubView.showDataLoadError("repo");
                         }
                     });
                 }
@@ -77,6 +76,6 @@ public class GithubPresenter implements GithubContract.Presenter {
 
     @Override
     public void dropView() {
-
+        mGithubView = null;
     }
 }

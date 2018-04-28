@@ -6,6 +6,11 @@ public class User {
 
     private String avatar_url;
 
+    public User(String name, String avatar_url) {
+        this.name = name;
+        this.avatar_url = avatar_url;
+    }
+
     public String getName() {
         return name;
     }

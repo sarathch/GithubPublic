@@ -12,6 +12,14 @@ public class Repo {
 
     String forks;
 
+    public Repo(String name, String description, String updated_at, String stargazers_count, String forks) {
+        this.name = name;
+        this.description = description;
+        this.updated_at = updated_at;
+        this.stargazers_count = stargazers_count;
+        this.forks = forks;
+    }
+
     public String getName() {
         return name;
     }
