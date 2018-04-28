@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TakeHome</string>
+    <string name="enter_user_name">Enter a github user id</string>
+</resources>
