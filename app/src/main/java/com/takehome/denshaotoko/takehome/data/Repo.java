@@ -1,5 +1,8 @@
 package com.takehome.denshaotoko.takehome.data;
 
+/**
+ * Model class for Repository
+ */
 public class Repo {
 
     String name;

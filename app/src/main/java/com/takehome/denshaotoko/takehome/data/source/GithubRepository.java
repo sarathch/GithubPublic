@@ -5,14 +5,19 @@ import android.util.Log;
 
 import com.takehome.denshaotoko.takehome.data.Repo;
 import com.takehome.denshaotoko.takehome.data.User;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+/**
+ * Repository implementation to fetch data from the data sources as required
+ * <p>
+ *     Implemented a cache to reduce redundant request. Note that logic to refresh caches not implemented.
+ * </p>
+ */
 
 @Singleton
 public class GithubRepository implements GithubDataSource{
@@ -26,17 +31,33 @@ public class GithubRepository implements GithubDataSource{
 
     Map<String, List<Repo>> mCachedRepoList;
 
+    /**
+     * By marking the constructor with {@code @Inject}, Dagger will try to inject the dependencies
+     * required to create an instance of the TasksRepository. Because {@link GithubRepository} is an
+     * interface, we must provide to Dagger a way to build those arguments, this is done in
+     * {@link GithubRepositoryModule}.
+     * <P>
+     * When two arguments or more have the same type, we must provide to Dagger a way to
+     * differentiate them. This is done using a qualifier.
+     * <p>
+     * Dagger strictly enforces that arguments not marked with {@code @Nullable} are not injected
+     * with {@code @Nullable} values.
+     */
     @Inject
     GithubRepository(GithubDataSource githubRemoteDataSource) {
         mGithubRemoteDataSource = githubRemoteDataSource;
     }
 
+    /**
+     * Gets user data from cache, remote data source, whichever available
+     * @param userId    -   Github username
+     * @param callback  -   LoadUserCallBack to listen on response
+     */
     @Override
     public void getUser(final String userId, @NonNull final LoadUserCallback callback) {
 
         // lookup in cache if available
         if(mCachedUser!=null && mCachedUser.containsKey(userId)){
-            Log.v("Repository::", "from cache");
             callback.onUserFetched(mCachedUser.get(userId));
             return;
         }
@@ -57,6 +78,11 @@ public class GithubRepository implements GithubDataSource{
         });
     }
 
+    /**
+     * Gets public repository data from cache, remote data source, whichever available
+     * @param userId    -   Github username
+     * @param callback  -   LoadRepoCallBack to listen on response
+     */
     @Override
     public void getRepos(final String userId, final LoadRepoCallback callback) {
 

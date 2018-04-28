@@ -1,5 +1,8 @@
 package com.takehome.denshaotoko.takehome.data;
 
+/**
+ * Model class for User
+ */
 public class User {
 
     private String name;

@@ -6,6 +6,9 @@ import com.takehome.denshaotoko.takehome.network.NetworkService;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * This is used by Dagger to inject the required arguments into the {@link GithubRepository}.
+ */
 @Module
 public class GithubRepositoryModule {
 

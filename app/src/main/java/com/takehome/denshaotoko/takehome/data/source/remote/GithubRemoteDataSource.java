@@ -1,23 +1,19 @@
 package com.takehome.denshaotoko.takehome.data.source.remote;
 
 import android.util.Log;
-
 import com.takehome.denshaotoko.takehome.data.Repo;
 import com.takehome.denshaotoko.takehome.data.User;
 import com.takehome.denshaotoko.takehome.data.source.GithubDataSource;
 import com.takehome.denshaotoko.takehome.network.NetworkService;
-
-import org.reactivestreams.Subscription;
-
 import java.util.List;
-
-import javax.inject.Inject;
-
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * Implementation of the data source that fetches data from remote.
+ */
 public class GithubRemoteDataSource implements GithubDataSource{
 
     private final NetworkService mNetworkService;

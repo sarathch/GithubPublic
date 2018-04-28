@@ -49,7 +49,6 @@ ext {
     daggerVersion = '2.11'
     dexmakerVersion = '1.2'
     gsonVersion = '2.8.1'
-    jsoupVersion = '1.11.3'
     bknifeVersion = '8.8.1'
     retrofitVersion = '2.3.0'
     picassoVersion = '2.5.2'

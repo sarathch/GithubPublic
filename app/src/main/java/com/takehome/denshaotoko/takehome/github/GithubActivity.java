@@ -67,6 +67,9 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
     @BindView(R.id.list_repo_details)
     RecyclerView mRecyclerView;
 
+    /**
+     * Listener for clicks on repo list view item
+     */
     RepoItemListener repoItemListener = new RepoItemListener() {
 
         @Override
@@ -88,14 +91,17 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // binding butter knife
         ButterKnife.bind(this);
 
+        // set up the recycler view
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRepoAdapter = new RepoAdapter(new ArrayList<Repo>(0), repoItemListener);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mRepoAdapter);
 
+        // load translate animation
         animTranslate = AnimationUtils.loadAnimation(this,
                 R.anim.anim_translate);
     }
@@ -138,6 +144,7 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
 
         String dateStr = clickedRepo.getUpdated_at();
 
+        // parsing date from UTF
         try {
             final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
             final Date dateObj = sdf.parse(dateStr);
@@ -161,6 +168,7 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
         Picasso.with(this).load(url).into(mUserIcon);
         mUserView.setText(name);
 
+        // start translate animation
         transitionContainer.startAnimation(animTranslate);
 
         mGithubPresenter.getRepoData(userId);
@@ -172,6 +180,7 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
         mRepoAdapter.refreshData(repoList);
 
         mRecyclerView.setVisibility(View.VISIBLE);
+        //start translate animation for rv
         mRecyclerView.startAnimation(animTranslate);
     }
 
@@ -247,7 +256,7 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
             holder.repoCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.v("Clicked","Item"+repoList.get(position).getName());
+                    // on item click
                     repoItemListener.onRepoClick(repoList.get(position));
                 }
             });
@@ -261,6 +270,8 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
                 repoList.addAll(repos);
             }
             notifyDataSetChanged();
+
+            // scroll to start of the list
             mRecyclerView.getLayoutManager().scrollToPosition(0);
         }
 

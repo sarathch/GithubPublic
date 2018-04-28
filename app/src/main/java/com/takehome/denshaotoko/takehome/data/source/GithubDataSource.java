@@ -7,6 +7,10 @@ import java.util.List;
 
 import io.reactivex.annotations.NonNull;
 
+/**
+ * Main entry point for accessing Github data.
+ */
+
 public interface GithubDataSource {
 
     interface LoadUserCallback {
