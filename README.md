@@ -27,5 +27,9 @@
 * [JUnit](https://mvnrepository.com/artifact/junit/junit), [Mockito](http://site.mockito.org/), [Hamcrest](http://hamcrest.org/JavaHamcrest/), [Guava](https://github.com/google/guava), RoboElectric - For Unit testing
 * ButterKnife - To bind views without redundant code
 
+## TODO
+* Detailed unit tests need to be added.
+* Cleaner animations.
+
 ## Author
 Sarath
