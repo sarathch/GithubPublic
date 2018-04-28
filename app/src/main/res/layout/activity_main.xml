@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="10dp"
         android:layout_below="@+id/text_input_layout"
         tools:ignore="UseCompoundDrawables">
 
@@ -43,7 +43,8 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_gravity="center"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:contentDescription="avatar" />
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -58,6 +59,7 @@
         android:id="@+id/list_repo_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:layout_below="@+id/layout_user_details">
     </android.support.v7.widget.RecyclerView>
 

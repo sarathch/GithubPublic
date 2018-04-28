@@ -13,6 +13,8 @@ public interface GithubContract {
         void showUserDetails(String url, String name);
 
         void updateRepoList(List<Repo> repoList);
+
+        void hideViews();
     }
 
     interface Presenter extends BasePresenter<View>{

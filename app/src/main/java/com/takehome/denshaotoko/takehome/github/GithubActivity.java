@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.PathInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -135,11 +136,19 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
     public void onSearch(){
         userId = mSearchText.getText().toString().toLowerCase();
         mGithubPresenter.getUserData(userId);
+
+        // hide soft keyboard
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(GithubActivity.INPUT_METHOD_SERVICE);
+        if(inputManager!=null && getCurrentFocus() !=null)
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        // hide old views
+        hideViews();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void showUserDetails(String url, String name) {
+
         final ViewGroup transitionContainer = findViewById(R.id.layout_user_details);
 
         Picasso.with(this).load(url).into(mUserIcon);
@@ -154,7 +163,15 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
     public void updateRepoList(List<Repo> repoList) {
 
         mRepoAdapter.refreshData(repoList);
+
+        mRecyclerView.setVisibility(View.VISIBLE);
         mRecyclerView.startAnimation(animTranslate);
+    }
+
+    @Override
+    public void hideViews() {
+
+        mRecyclerView.setVisibility(View.GONE);
     }
 
     public interface RepoItemListener {
@@ -216,14 +233,14 @@ public class GithubActivity extends DaggerAppCompatActivity implements GithubCon
         }
 
         public void refreshData(List<Repo> repos) {
-            Log.v("Loading shit refresh", ""+repos.size());
+
             if (repoList != null){
-                Log.v("Loading shit refresh2", ""+repos.size());
                 if (repoList.size() > 0)
                     repoList.clear();
                 repoList.addAll(repos);
             }
             notifyDataSetChanged();
+            mRecyclerView.getLayoutManager().scrollToPosition(0);
         }
 
         @Override
